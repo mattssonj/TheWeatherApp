@@ -1,0 +1,17 @@
+#search_area {
+    text-align: left;
+}
+
+#search_button {
+    margin-top:0.2em;
+    color: white;
+}
+
+.black-color {
+    color:black;
+}
+
+#search_field {
+    color: black;
+    background-color: rgba(255,255,255,0.7);
+}

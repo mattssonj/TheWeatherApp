@@ -1,0 +1,27 @@
+/* styles.css */
+
+
+
+/* cover */
+
+#cover {
+    /* Image taken from here:
+    https://www.pexels.com/photo/bad-weather-beach-blur-clouds-395303/
+    */ 
+    background: #222 url('../assets/images/bad-weather-beach-blur-395303.jpg') center center no-repeat;
+    background-size: cover;
+    color: black;
+    height: 100%;
+    /* text-align: center; */
+    /* Detta centrerar allt korrekt i mitten av skärmen */
+    display: flex;
+    align-items: center;
+}
+
+#cover-caption {
+    width: 100%;
+}
+
+
+
+

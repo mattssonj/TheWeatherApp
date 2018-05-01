@@ -1,0 +1,13 @@
+<h3>
+  The weather app</h3>
+<div class="input-group input-group-lg">
+  <input [(ngModel)]="city" id="search_field" class="form-control" placeholder="Type in city...">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary btn-lg black-color" type="button">
+      <fa name="location-arrow" animation="spin"></fa> <!-- Setting location arrow on the button-->
+    </button>
+  </div>
+</div>
+<div class="input-group-btn input-group-lg">
+  <button class="btn btn-primary btn-lg" id="search_button" (click)="getWeather()">Search</button>
+</div>

@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Bootstrap CSS */
+@import "../node_modules/bootstrap/dist/css/bootstrap.css";
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
