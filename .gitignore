@@ -44,7 +44,5 @@ testem.log
 Thumbs.db
 
 # got my apikeys here:
-/src/environments/*
-/environments/*
 src/environments/environment.prod.ts
 src/environments/environment.ts
