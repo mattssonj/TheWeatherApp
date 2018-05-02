@@ -1,3 +1,11 @@
-<p>
-  result works!
-</p>
+<div *ngIf="forecast">
+  <p>
+    forecast works.
+    Data taken from {{ forecast.name }}
+  </p>
+</div>
+<div *ngIf="forecast === null">
+  <p>
+    forecast is null!
+  </p>
+</div>

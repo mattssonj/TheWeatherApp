@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { WeatherService } from '../weather/weather.service';
 import { Router } from '@angular/router';
+import { Forecast } from '../weather/forecast';
+import { ResultComponent } from '../result/result.component';
 
 @Component({
   selector: 'app-search',
@@ -9,10 +11,7 @@ import { Router } from '@angular/router';
 })
 export class SearchComponent implements OnInit {
 
-  something = 'hello';
-  id = `${this.something}_mah_sir`;
-  // TODO: weather should not be string, just dummy class
-  city: string;
+  input: string;
 
   constructor(
     private weatherService: WeatherService,
@@ -23,22 +22,24 @@ export class SearchComponent implements OnInit {
   }
 
   getWeather() {
-    if (!this.city) {
+    if (!this.input) {
       console.log('Nothing entered in search field');
       return;
     }
     console.log('Calling weatherSerivce');
-    this.weatherService.getWeather(this.city).subscribe(
-      // weather => this.router.navigate([`result/${this.city}`])
-      weather => {
-      // this.router.navigate([`result/12`]);
-      console.log(weather.weather[0].description);
-      console.log(weather);
-      });
-  }
 
-  showResult(cityName: string) {
-
+    this.weatherService.getWeather(this.input).subscribe(
+      (data: Forecast) => {
+        console.log(data.name);
+        this.weatherService.setObservable(data);
+        this.router.navigate([`result/${this.input}`]);
+      },
+      (error: any) => {
+        console.error('There was an ERROR');
+        console.error(error.status);
+        // TODO: Go to some error page
+      }
+    );
   }
 
 }
