@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { WeatherService } from '../weather/weather.service';
 import { Router } from '@angular/router';
 import { Forecast } from '../weather/forecast';
 import { ResultComponent } from '../result/result.component';
+// import { FormControl } from '@angular/forms';
+import { LocationService } from '../location/location.service';
+import { Location } from '../location/location';
 
 @Component({
   selector: 'app-search',
@@ -12,27 +15,46 @@ import { ResultComponent } from '../result/result.component';
 export class SearchComponent implements OnInit {
 
   input: string;
+  @ViewChild('search')
+  searchElement: ElementRef;
 
   constructor(
     private weatherService: WeatherService,
-    private router: Router
+    private router: Router,
+    private locationService: LocationService
   ) { }
 
   ngOnInit() {
+
+    // All code in here is to setup google autocomplete
+    const autoComplete = new google.maps.places.Autocomplete(
+      this.searchElement.nativeElement,
+      { types: ['geocode'] }
+    );
+    autoComplete.addListener('place_changed', () => {
+      const place: google.maps.places.PlaceResult = autoComplete.getPlace();
+      if (!place.geometry) {
+        // User entered something that was not suggested
+        console.log('place changed activated');
+        console.log(place.name);
+      }
+      const lat = place.geometry.location.lat();
+      const lon = place.geometry.location.lng();
+      this.getWeather(lat, lon, place.name);
+    });
   }
 
-  getWeather() {
-    if (!this.input) {
-      console.log('Nothing entered in search field');
+  getWeather(lat: number, lon: number, city: string) {
+    if (this.isFieldEmpty()) {
       return;
     }
     console.log('Calling weatherSerivce');
 
-    this.weatherService.getWeather(this.input).subscribe(
+    this.weatherService.getWeather(lat, lon).subscribe(
       (data: Forecast) => {
         console.log(data.name);
         this.weatherService.setObservable(data);
-        this.router.navigate([`result/${this.input}`]);
+        this.router.navigate([`result/${city}`]);
       },
       (error: any) => {
         console.error('There was an ERROR');
@@ -40,6 +62,32 @@ export class SearchComponent implements OnInit {
         // TODO: Go to some error page
       }
     );
+  }
+
+  // TODO: circular dependancy on locationService atm...
+  getLocation() {
+    if (this.isFieldEmpty()) {
+      return;
+    }
+    this.locationService.getPlace(this.input, this.locationCallback, this);
+  }
+
+  locationCallback(location: Location, search: SearchComponent) {
+    console.log('callback was made. data given --->  ' + location);
+    console.log(location);
+    if (location.lat === 0 && location.lon === 0) {
+      // TODO: no data was found, send to some error page
+      return;
+    }
+    search.getWeather(location.lat, location.lon, location.name);
+  }
+
+  isFieldEmpty(): boolean {
+    const empty = this.input == null;
+    if (empty) {
+      console.log('Nothing entered in search field');
+    }
+    return empty;
   }
 
 }

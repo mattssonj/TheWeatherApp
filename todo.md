@@ -3,13 +3,14 @@
 Dont mind my english here. Only fast notes written down.
 
 TODO:
-- Fix autocomplete while searching a city name(https://developers.google.com/maps/documentation/javascript/reference/3/#Autocomplete)
+-[x] Fix autocomplete while searching a city name(https://developers.google.com/maps/documentation/javascript/reference/3/#Autocomplete)
+    - [ ] check if its possible to move the script in index.html 
 
-- Fix httprequest from a weather service. SMHI?
+-[x] Fix httprequest from a weather service. SMHI?
     - update result page.
 
 
-- CORS during http request on SMHI.. NEED FIX. 
+-[x] CORS during http request on SMHI.. NEED FIX. 
     - a solution might be
     (https://github.com/Rob--W/cors-anywhere/)
     - Or change api
@@ -22,6 +23,9 @@ TODO:
 
 - Save latest search from users computer with cookie och html storage? what is best?
     - follow PUL rules(some kind of cookie warning)
+    - Follow the rules [here](https://stackoverflow.com/questions/49018660/google-geocoder-api-with-angular-4). Not send a request for every custom city name. (location package)
+
+- Time being I have a circular dependency on LocationService and the SearchComponent.
 
 - Create a footer linking to me
 
@@ -29,6 +33,7 @@ TODO:
 Optional:
     - if searching with empty searchfield. Show some help
     - Create external SMHI parser
+    - Last 3 searched places showing on first page 
 
 To be continued...
 
