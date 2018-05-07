@@ -15,7 +15,7 @@ export class ResultComponent implements OnInit {
     // The forecast instance is listening to changes on WeatherService.
     // Object is updated if search is done from SearchComponent and
     // returned a postive result.
-    weatherService.observable.subscribe(observation => {
+    weatherService.observable$.subscribe(observation => {
       this.forecast = observation;
     });
    }

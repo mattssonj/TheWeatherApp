@@ -10,29 +10,26 @@ import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class WeatherService {
-  lat = 57.651576;
-  lon = 11.900016;
-  myrequest = `https://api.openweathermap.org/data/2.5/weather?lat=${this.lat}&lon=${this.lon}&APPID=${environment.owmKey}`;
   errorCode: any;
-
-  observable: Observable<Forecast>;
+  observable$: Observable<Forecast>;
 
   constructor(private http: HttpClient) { }
 
-  getWeather(something: any): Observable<Forecast> {
+  getWeather(lat: number, lon: number): Observable<Forecast> {
+    const myrequest = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${environment.owmKey}`;
     // collects data from OpenWeatherMap
     if (environment.production) {
-      return this.http.jsonp<Forecast>(this.myrequest, 'callback')
+      return this.http.jsonp<Forecast>(myrequest, 'callback')
         .retry(3);
     } else {
       console.log('Running dev mode');
       console.log('Delay activated in http request');
-      return this.http.jsonp<Forecast>(this.myrequest, 'callback')
+      return this.http.jsonp<Forecast>(myrequest, 'callback')
         .delay(1000);
     }
   }
 
   setObservable(forecast: Forecast) {
-    this.observable = new Observable(observer => observer.next(forecast));
+    this.observable$ = new Observable(observer => observer.next(forecast));
   }
 }
