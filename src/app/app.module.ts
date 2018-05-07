@@ -21,6 +21,7 @@ import { ResultComponent } from './result/result.component';
 // Services
 import { WeatherService } from './weather/weather.service';
 import { LocationService } from './location/location.service';
+import { PrinterService } from './printer.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { LocationService } from './location/location.service';
   ],
   providers: [
     WeatherService,
-    LocationService
+    LocationService,
+    PrinterService
   ],
   bootstrap: [AppComponent]
 })

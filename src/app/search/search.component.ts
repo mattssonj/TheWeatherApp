@@ -49,9 +49,6 @@ export class SearchComponent implements OnInit {
   }
 
   getWeather(lat: number, lon: number, city: string) {
-    if (this.isFieldEmpty()) {
-      return;
-    }
     console.log('Calling weatherSerivce');
 
     this.weatherService.getWeather(lat, lon).subscribe(
@@ -73,14 +70,15 @@ export class SearchComponent implements OnInit {
     if (this.isFieldEmpty()) {
       return;
     }
-    this.locationService.getPlace(this.input, this.locationCallback, this);
+    this.locationService.getPosition(this.input, this.locationCallback, this);
   }
 
   locationCallback(location: Location, search: SearchComponent) {
     console.log('callback was made. data given --->  ' + location);
     console.log(location);
-    if (location.lat === 0 && location.lon === 0) {
+    if ((location.lat === 0 && location.lon === 0) || location.name == null) {
       // TODO: no data was found, send to some error page
+      console.log('no position was found');
       return;
     }
     search.getWeather(location.lat, location.lon, location.name);
@@ -89,8 +87,14 @@ export class SearchComponent implements OnInit {
   currentPosition() {
     console.log('current pos pressed');
     if (navigator.geolocation) {
+      // Sending in callback to locationCallback method.
       navigator.geolocation.getCurrentPosition(data => {
-        console.log(data);
+        this.locationService.getCity(
+          data.coords.latitude,
+          data.coords.longitude,
+          this.locationCallback,
+          this
+        );
       });
     }
   }
