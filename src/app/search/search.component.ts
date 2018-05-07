@@ -3,10 +3,10 @@ import { WeatherService } from '../weather/weather.service';
 import { Router } from '@angular/router';
 import { Forecast } from '../weather/forecast';
 import { ResultComponent } from '../result/result.component';
-// import { FormControl } from '@angular/forms';
 import { LocationService } from '../location/location.service';
 import { Location } from '../location/location';
 import { MapsAPILoader } from '@agm/core';
+import { } from 'googlemaps';
 
 @Component({
   selector: 'app-search',

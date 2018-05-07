@@ -46,3 +46,6 @@ Thumbs.db
 # got my apikeys here:
 src/environments/environment.prod.ts
 src/environments/environment.ts
+
+# https certs
+*.pem

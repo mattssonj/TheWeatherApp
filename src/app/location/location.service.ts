@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Location } from './location';
 import { SearchComponent } from '../search/search.component';
+import { } from 'googlemaps';
 
 @Injectable()
 export class LocationService {
