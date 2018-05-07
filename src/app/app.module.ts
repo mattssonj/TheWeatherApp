@@ -21,6 +21,7 @@ import { ResultComponent } from './result/result.component';
 // Services
 import { WeatherService } from './weather/weather.service';
 import { LocationService } from './location/location.service';
+import { PrinterService } from './printer.service';
 
 @NgModule({
   declarations: [
@@ -38,13 +39,14 @@ import { LocationService } from './location/location.service';
     HttpClientModule,
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
-      apiKey: environment.googleGeocode_key,
+      apiKey: environment.googleAutocomplete_key,
       libraries: ['places']
     })
   ],
   providers: [
     WeatherService,
-    LocationService
+    LocationService,
+    PrinterService
   ],
   bootstrap: [AppComponent]
 })
