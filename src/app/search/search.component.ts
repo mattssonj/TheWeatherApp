@@ -6,6 +6,7 @@ import { ResultComponent } from '../result/result.component';
 // import { FormControl } from '@angular/forms';
 import { LocationService } from '../location/location.service';
 import { Location } from '../location/location';
+import { MapsAPILoader } from '@agm/core';
 
 @Component({
   selector: 'app-search',
@@ -21,26 +22,29 @@ export class SearchComponent implements OnInit {
   constructor(
     private weatherService: WeatherService,
     private router: Router,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private mapsAPILoader: MapsAPILoader
   ) { }
 
   ngOnInit() {
 
     // All code in here is to setup google autocomplete
-    const autoComplete = new google.maps.places.Autocomplete(
-      this.searchElement.nativeElement,
-      { types: ['geocode'] }
-    );
-    autoComplete.addListener('place_changed', () => {
-      const place: google.maps.places.PlaceResult = autoComplete.getPlace();
-      if (!place.geometry) {
-        // User entered something that was not suggested
-        console.log('place changed activated');
-        console.log(place.name);
-      }
-      const lat = place.geometry.location.lat();
-      const lon = place.geometry.location.lng();
-      this.getWeather(lat, lon, place.name);
+    this.mapsAPILoader.load().then(() => {
+      const autoComplete = new google.maps.places.Autocomplete(
+        this.searchElement.nativeElement,
+        { types: ['geocode'] }
+      );
+      autoComplete.addListener('place_changed', () => {
+        const place: google.maps.places.PlaceResult = autoComplete.getPlace();
+        if (!place.geometry) {
+          // User entered something that was not suggested
+          console.log('place changed activated');
+          console.log(place.name);
+        }
+        const lat = place.geometry.location.lat();
+        const lon = place.geometry.location.lng();
+        this.getWeather(lat, lon, place.name);
+      });
     });
   }
 
@@ -80,6 +84,15 @@ export class SearchComponent implements OnInit {
       return;
     }
     search.getWeather(location.lat, location.lon, location.name);
+  }
+
+  currentPosition() {
+    console.log('current pos pressed');
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(data => {
+        console.log(data);
+      });
+    }
   }
 
   isFieldEmpty(): boolean {

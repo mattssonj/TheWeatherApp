@@ -38,7 +38,7 @@ import { LocationService } from './location/location.service';
     HttpClientModule,
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
-      apiKey: environment.googleGeocode_key,
+      apiKey: environment.googleAutocomplete_key,
       libraries: ['places']
     })
   ],

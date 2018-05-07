@@ -5,12 +5,12 @@
     id="search_field" class="form-control" placeholder="Type in city..." 
     type="text" spellcheck="off" autocorrect="off" autocapitalize="off" autocomplete="off" #search>
   <div class="input-group-append">
-    <button class="btn btn-outline-secondary btn-lg black-color" type="button">
+    <button class="btn btn-outline-secondary btn-lg black-color" type="button" (click)="currentPosition()">
       <fa name="location-arrow" animation="spin"></fa> <!-- Setting location arrow on the button-->
     </button>
   </div>
 </div>
 <div class="input-group-btn input-group-lg">
   <!-- <button class="btn btn-primary btn-lg" id="search_button" (click)="getWeather(input)">Search</button> -->
-  <button class="btn btn-primary btn-lg" id="search_button" (click)="getLocation()">Search</button>
+  <button class="btn btn-primary btn-lg" id="searcrent_button" (click)="getLocation()">Search</button>
 </div>
