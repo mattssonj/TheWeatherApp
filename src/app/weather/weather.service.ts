@@ -20,7 +20,7 @@ export class WeatherService {
   ) { }
 
   getWeather(lat: number, lon: number): Observable<Forecast> {
-    const myrequest = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${environment.owmKey}`;
+    const myrequest = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${environment.owmKey}&units=metric`;
     // collects data from OpenWeatherMap
     if (environment.production) {
       return this.http.jsonp<Forecast>(myrequest, 'callback')

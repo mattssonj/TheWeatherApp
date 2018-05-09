@@ -19,6 +19,7 @@ export class ResultComponent implements OnInit {
 
   ngOnInit() {
     this.getweather();
+    this.logger.log(this.forecast);
   }
 
   getweather() {
