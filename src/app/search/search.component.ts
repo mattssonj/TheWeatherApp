@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { WeatherService } from '../weather/weather.service';
 import { Router } from '@angular/router';
 import { Forecast } from '../weather/forecast';
-import { ResultComponent } from '../result/result.component';
 import { LocationService } from '../location/location.service';
 import { Location } from '../location/location';
 import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
+import { PrinterService } from '../printer.service';
 
 @Component({
   selector: 'app-search',
@@ -16,14 +16,15 @@ import { } from 'googlemaps';
 export class SearchComponent implements OnInit {
 
   input: string;
-  @ViewChild('search')
-  searchElement: ElementRef;
+  @ViewChild('search') searchElement: ElementRef;
 
   constructor(
     private weatherService: WeatherService,
     private router: Router,
     private locationService: LocationService,
-    private mapsAPILoader: MapsAPILoader
+    private mapsAPILoader: MapsAPILoader,
+    private logger: PrinterService,
+    private ngZone: NgZone
   ) { }
 
   ngOnInit() {
@@ -38,8 +39,8 @@ export class SearchComponent implements OnInit {
         const place: google.maps.places.PlaceResult = autoComplete.getPlace();
         if (!place.geometry) {
           // User entered something that was not suggested
-          console.log('place changed activated');
-          console.log(place.name);
+          this.logger.log('place changed activated');
+          this.logger.log(place.name);
         }
         const lat = place.geometry.location.lat();
         const lon = place.geometry.location.lng();
@@ -49,17 +50,19 @@ export class SearchComponent implements OnInit {
   }
 
   getWeather(lat: number, lon: number, city: string) {
-    console.log('Calling weatherSerivce');
+    this.logger.log('Calling weatherSerivce');
 
     this.weatherService.getWeather(lat, lon).subscribe(
       (data: Forecast) => {
-        console.log(data.name);
-        this.weatherService.setObservable(data);
-        this.router.navigate([`result/${city}`]);
+        this.logger.log(data.name);
+        this.weatherService.forecast = data;
+
+        this.ngZone.run(() => this.router.navigateByUrl(`result/${city}`));
+        // this.router.navigate([`result/${city}`]); // This code seems to be bugged and therefore using ngZone
       },
       (error: any) => {
-        console.error('There was an ERROR');
-        console.error(error.status);
+        this.logger.error('There was an ERROR');
+        this.logger.error(error.status);
         // TODO: Go to some error page
       }
     );
@@ -74,18 +77,18 @@ export class SearchComponent implements OnInit {
   }
 
   locationCallback(location: Location, search: SearchComponent) {
-    console.log('callback was made. data given --->  ' + location);
-    console.log(location);
+    search.logger.log('callback was made. data given --->  ' + location);
+    search.logger.log(location);
     if ((location.lat === 0 && location.lon === 0) || location.name == null) {
       // TODO: no data was found, send to some error page
-      console.log('no position was found');
+      search.logger.log('no position was found');
       return;
     }
     search.getWeather(location.lat, location.lon, location.name);
   }
 
   currentPosition() {
-    console.log('current pos pressed');
+    this.logger.log('current pos pressed');
     if (navigator.geolocation) {
       // Sending in callback to locationCallback method.
       navigator.geolocation.getCurrentPosition(data => {
@@ -102,7 +105,7 @@ export class SearchComponent implements OnInit {
   isFieldEmpty(): boolean {
     const empty = this.input == null;
     if (empty) {
-      console.log('Nothing entered in search field');
+      this.logger.log('Nothing entered in search field');
     }
     return empty;
   }

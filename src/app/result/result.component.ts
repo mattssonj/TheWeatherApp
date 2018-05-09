@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { WeatherService } from '../weather/weather.service';
 import { Forecast } from '../weather/forecast';
+import { PrinterService } from '../printer.service';
 
 @Component({
   selector: 'app-result',
@@ -11,16 +12,17 @@ export class ResultComponent implements OnInit {
 
   forecast: Forecast;
 
-  constructor(private weatherService: WeatherService) {
-    // The forecast instance is listening to changes on WeatherService.
-    // Object is updated if search is done from SearchComponent and
-    // returned a postive result.
-    weatherService.observable$.subscribe(observation => {
-      this.forecast = observation;
-    });
-   }
+  constructor(
+    private weatherService: WeatherService,
+    private logger: PrinterService
+  ) { }
 
   ngOnInit() {
+    this.getweather();
+  }
+
+  getweather() {
+    this.forecast = this.weatherService.forecast;
   }
 
 }

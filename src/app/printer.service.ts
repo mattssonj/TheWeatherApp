@@ -16,4 +16,10 @@ export class PrinterService {
     }
   }
 
+  error(message: any) {
+    if (!environment.production) {
+      console.error(message);
+    }
+  }
+
 }
