@@ -1,10 +1,24 @@
-<div *ngIf="forecast">
-  <p>
-    forecast works.
-    Data taken from {{ forecast.name }}
-  </p>
+<div *ngIf="forecast" class="result">
+  <div class="row">
+    <div class="col-sm-6">
+      <h3>{{ forecast.name }}</h3>
+      <p>
+        <span *ngIf="forecast.main.temp > 20" id="red_thermometer" class="wi wi-thermometer thermometer"></span>
+        <span *ngIf="forecast.main.temp <= 5" id="blue_thermometer" class="wi wi-thermometer-exterior thermometer"></span>
+        Tempature is: {{ forecast.main.temp }}&#8451;
+      </p>
+      <p>{{ forecast.weather[0].description }}</p>
+      <p>
+        Wind: {{ forecast.wind.speed }} m/s From:
+      </p>
+      <span class="wi wi-wind from-{{ forecast.wind.deg }}-deg" style="font-size: 50px;"></span>
+    </div>
+    <div class="col-sm-6">
+      <i class="wi huge_icon {{ getIconCode() }}"></i>
+    </div>
+  </div>
 </div>
-<div *ngIf="!forecast">
+<div *ngIf="!forecast" class="result">
   <p>
     forecast is null!
   </p>
