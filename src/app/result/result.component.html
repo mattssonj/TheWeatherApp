@@ -2,12 +2,18 @@
   <div class="row">
     <div class="col-sm-6">
       <h3>{{ forecast.name }}</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
       <p>
         <span *ngIf="forecast.main.temp > 20" id="red_thermometer" class="wi wi-thermometer thermometer"></span>
         <span *ngIf="forecast.main.temp <= 5" id="blue_thermometer" class="wi wi-thermometer-exterior thermometer"></span>
         Tempature is: {{ forecast.main.temp }}&#8451;
       </p>
-      <p>{{ forecast.weather[0].description }}</p>
+      <p>{{ forecast.weather[0].description }}
+        <i class="wi {{ getIconCode() }}"></i>
+      </p>
       <p>
         Wind: {{ forecast.wind.speed }} m/s From:
       </p>
@@ -20,6 +26,6 @@
 </div>
 <div *ngIf="!forecast" class="result">
   <p>
-    forecast is null!
+    forecast is null! Something is suppsed to happen if you get here...
   </p>
 </div>
