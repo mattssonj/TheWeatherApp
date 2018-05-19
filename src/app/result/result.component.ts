@@ -6,6 +6,7 @@ import { PrinterService } from '../printer.service';
 import { Main } from '../weather/main';
 import { Weather } from '../weather/weather';
 import { environment } from '../../environments/environment';
+import { FiveForecast } from '../weather/five-forecast';
 
 @Component({
   selector: 'app-result',
@@ -14,7 +15,8 @@ import { environment } from '../../environments/environment';
 })
 export class ResultComponent implements OnInit {
 
-  forecast: Forecast;
+  forecast: FiveForecast;
+  // fiveForecast: FiveForecast;
 
   constructor(
     private weatherService: WeatherService,
@@ -50,7 +52,7 @@ export class ResultComponent implements OnInit {
     ];
 
 
-    this.forecast = {
+    const forecast = {
       'name': 'Göteborg',
       'weather': wa,
       'wind': {
@@ -59,10 +61,17 @@ export class ResultComponent implements OnInit {
       },
       'main': m
     };
+
+    this.forecast = {
+      'city': {'name': 'Göteborg'},
+      'list': [
+        forecast
+      ]
+    };
   }
 
   getweather() {
-    this.forecast = this.weatherService.forecast;
+    this.forecast = this.weatherService.fiveForecast;
   }
 
   getCode() {
@@ -73,7 +82,7 @@ export class ResultComponent implements OnInit {
   // open weather map to custom weather icons
   // See result css for more info about icons
   getIconCode() {
-    switch (this.forecast.weather[0].icon) {
+    switch (this.forecast.list[0].weather[0].icon) {
       case '01d':
         return 'wi-day-sunny';
       case '01n':
@@ -120,7 +129,7 @@ export class ResultComponent implements OnInit {
   // TODO: This is not being used at the moment
   // might never use it. Remove if so
   getIconColor() {
-    const icon = this.forecast.weather[0].icon;
+    const icon = this.forecast.list[0].weather[0].icon;
     let color: string;
     switch (icon.charAt(icon.length - 1)) {
       case 'd': // its day
