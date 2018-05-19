@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core'
 import { WeatherService } from '../weather/weather.service';
 import { Router } from '@angular/router';
 import { Forecast } from '../weather/forecast';
+import { FiveForecast } from '../weather/five-forecast';
 import { LocationService } from '../location/location.service';
 import { Location } from '../location/location';
 import { MapsAPILoader } from '@agm/core';
@@ -52,7 +53,28 @@ export class SearchComponent implements OnInit {
   getWeather(lat: number, lon: number, city: string) {
     this.logger.log('Calling weatherSerivce');
 
-    this.weatherService.getWeather(lat, lon).subscribe(
+    this.weatherService.getForecast(lat, lon).subscribe(
+      (data: FiveForecast) => {
+        this.logger.log(data.city.name);
+        this.weatherService.fiveForecast = data;
+
+        this.ngZone.run(() => this.router.navigateByUrl(`result/${city}`));
+        // this.router.navigate([`result/${city}`]); // This code seems to be bugged and therefore using ngZone
+      },
+      (error: any) => {
+        this.logger.error('There was an ERROR');
+        this.logger.error(error.status);
+        // TODO: Go to some error page
+      }
+    );
+  }
+
+
+  // this method is currently not used. if using this, make sure result uses forecast instead five-forecast
+  getCurrentWeather(lat: number, lon: number, city: string) {
+    this.logger.log('Calling weatherSerivce');
+
+    this.weatherService.getCurrentWeather(lat, lon).subscribe(
       (data: Forecast) => {
         this.logger.log(data.name);
         this.weatherService.forecast = data;

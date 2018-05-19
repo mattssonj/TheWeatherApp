@@ -1,23 +1,17 @@
 <div *ngIf="forecast" class="result">
   <div class="row">
     <div class="col-sm-6">
-      <h3>{{ forecast.name }}</h3>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-6">
+      <h3>{{ forecast.city.name }}</h3>
       <p>
-        <span *ngIf="forecast.main.temp > 20" id="red_thermometer" class="wi wi-thermometer thermometer"></span>
-        <span *ngIf="forecast.main.temp <= 5" id="blue_thermometer" class="wi wi-thermometer-exterior thermometer"></span>
-        Tempature is: {{ forecast.main.temp }}&#8451;
+        <span *ngIf="forecast.list[0].main.temp > 20" id="red_thermometer" class="wi wi-thermometer thermometer"></span>
+        <span *ngIf="forecast.list[0].main.temp <= 5" id="blue_thermometer" class="wi wi-thermometer-exterior thermometer"></span>
+        Tempature is: {{ forecast.list[0].main.temp }}&#8451;
       </p>
-      <p>{{ forecast.weather[0].description }}
-        <i class="wi {{ getIconCode() }}"></i>
-      </p>
+      <p>{{ forecast.list[0].weather[0].description }}</p>
       <p>
-        Wind: {{ forecast.wind.speed }} m/s From:
+        Wind: {{ forecast.list[0].wind.speed }} m/s From:
       </p>
-      <span class="wi wi-wind from-{{ forecast.wind.deg }}-deg" style="font-size: 50px;"></span>
+      <span class="wi wi-wind from-{{ forecast.list[0].wind.deg }}-deg" style="font-size: 50px;"></span>
     </div>
     <div class="col-sm-6">
       <i class="wi huge_icon {{ getIconCode() }}"></i>
