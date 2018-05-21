@@ -1,25 +1,66 @@
 <div *ngIf="forecast" class="result">
   <div class="row">
-    <div class="col-sm-6">
+    <button>
+      <!-- Create Back button here -->
+    </button>
+  </div>
+  <div class="row">
+    <div class="col-md-1 side_button">
+      <div *ngIf="(showingDay > 0)" class="full-height">
+        <button type="button" class="btn btn-light full-height" (click)="decrementDay()">
+          <fa name="angle-left fa-2x"></fa>
+        </button>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <span style="font-size: 0.75em;">data collected from:</span>
       <h3>{{ forecast.city.name }}</h3>
       <p>
-        <span *ngIf="forecast.list[0].main.temp > 20" id="red_thermometer" class="wi wi-thermometer thermometer"></span>
-        <span *ngIf="forecast.list[0].main.temp <= 5" id="blue_thermometer" class="wi wi-thermometer-exterior thermometer"></span>
-        Tempature is: {{ forecast.list[0].main.temp }}&#8451;
+        <span *ngIf="forecast.list[showingDay].main.temp > 20" id="red_thermometer" class="wi wi-thermometer thermometer"></span>
+        <span *ngIf="forecast.list[showingDay].main.temp <= 5" id="blue_thermometer" class="wi wi-thermometer-exterior thermometer"></span>
+        Tempature is: {{ parseInt(forecast.list[showingDay].main.temp) }}&#8451;
       </p>
-      <p>{{ forecast.list[0].weather[0].description }}</p>
+      <p>{{ forecast.list[showingDay].weather[0].description }}
+        <i class="wi {{ getIconCode(forecast.list[showingDay].weather[0]) }}"></i>
+      </p>
       <p>
-        Wind: {{ forecast.list[0].wind.speed }} m/s From:
+        Wind: {{ forecast.list[showingDay].wind.speed }} m/s From:
       </p>
-      <span class="wi wi-wind from-{{ forecast.list[0].wind.deg }}-deg" style="font-size: 50px;"></span>
+
+      <!-- TODO: This one is temporary -->
+      <span class="wi wi-wind from-{{ forecast.list[showingDay].wind.deg }}-deg" style="font-size: 50px;"></span>
     </div>
-    <div class="col-sm-6">
-      <i class="wi huge_icon {{ getIconCode() }}"></i>
+    <div class="col-md-5 forecast">
+      <div *ngFor="let weather of days[showingDay]">
+        <div class="row">
+          <div class="col-md-4">
+            <span>{{ getTime(weather.dt_txt) }}</span>
+          </div>
+          <div class="col-md-4">
+            <span *ngIf="weather.main.temp > 20" id="red_thermometer" class="wi wi-thermometer thermometer"></span>
+            <span *ngIf="weather.main.temp <= 5" id="blue_thermometer" class="wi wi-thermometer-exterior thermometer"></span>
+            <span>{{ parseInt(weather.main.temp) }}&#8451;</span>
+          </div>
+          <div class="col-md-4">
+            <span>
+              <i class="wi {{ getIconCode(weather.weather[0]) }}"></i>
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1 side_button">
+      <div *ngIf="(showingDay < days.length - 1)" class="full-height">
+        <button type="button" class="btn btn-light full-height" (click)="incrementDay()">
+          <fa name="angle-right fa-2x"></fa>
+        </button>
+      </div>
     </div>
   </div>
 </div>
 <div *ngIf="!forecast" class="result">
   <p>
-    forecast is null! Something is suppsed to happen if you get here...
+    forecast is null! Something is supposed to happen if you get here...
   </p>
 </div>
