@@ -37,7 +37,7 @@ export class ResultComponent implements OnInit {
   }
 
   testcase(): void {
-    if (this.forecast && !environment.production) {
+    if (this.forecast || environment.production) {
       return;
     }
     this.logger.log('Forecast was null, setting up test forecast');
