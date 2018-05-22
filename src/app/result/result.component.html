@@ -36,6 +36,10 @@
 
     <!-- Right column showing hourly forecasts -->
     <div class="col-md-5 forecast">
+      <div class="center">
+        <span *ngIf="showingDay > 0">Day: {{ getDate(days[showingDay][0].dt_txt) }}</span>
+        <span *ngIf="showingDay <= 0">Today</span>
+      </div>
       <div *ngFor="let weather of days[showingDay]">
         <div class="row">
           <div class="col-md-4">
@@ -57,7 +61,7 @@
     </div>
     <div class="col-md-1 side_button">
       <div *ngIf="(showingDay < days.length - 1)" class="full-height">
-        <button type="button" class="btn btn-dark full-height" (click)="incrementDay()" style="background: none;">
+        <button type="button" class="btn btn-light full-height" (click)="incrementDay()">
           <fa name="angle-right fa-2x"></fa>
         </button>
       </div>
