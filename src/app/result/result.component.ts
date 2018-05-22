@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WeatherService } from '../weather/weather.service';
 import { Forecast } from '../weather/forecast';
 import { PrinterService } from '../printer.service';
+import { Router } from '@angular/router';
 
 import { Main } from '../weather/main';
 import { Weather } from '../weather/weather';
@@ -16,26 +17,32 @@ import { FiveForecast } from '../weather/five-forecast';
 export class ResultComponent implements OnInit {
 
   forecast: FiveForecast;
-  // fiveForecast: FiveForecast;
+  days: Forecast[][];
+  showingDay: number;
 
   constructor(
     private weatherService: WeatherService,
-    private logger: PrinterService
+    private logger: PrinterService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.getweather();
     this.testcase();
+
+    this.createDayData();
+
+    this.showingDay = 0;
     this.logger.log(this.forecast);
   }
 
-  testcase() {
+  testcase(): void {
     if (this.forecast && !environment.production) {
       return;
     }
     this.logger.log('Forecast was null, setting up test forecast');
     const m = {
-      'temp': 15.0,
+      'temp': 23.54,
       'pressure': null,
       'humidity': null,
       'temp_min': null,
@@ -59,30 +66,89 @@ export class ResultComponent implements OnInit {
         'speed': 5,
         'deg': 150
       },
-      'main': m
+      'main': m,
+      'dt_txt': '2018-05-30 12:00'
     };
 
     this.forecast = {
-      'city': {'name': 'Göteborg'},
+      'city': { 'name': 'Göteborg' },
       'list': [
+        forecast,
+        forecast,
+        forecast,
+        forecast,
+        forecast,
+        forecast,
+        forecast,
         forecast
       ]
     };
   }
 
-  getweather() {
+  getweather(): void {
     this.forecast = this.weatherService.fiveForecast;
   }
 
-  getCode() {
-    return `&#x${this.getIconCode()};`;
+  /**
+   * This method create a matrix were each row is day
+   * and col is 3 hour intervall of forecast
+   */
+  createDayData(): void {
+    this.days = [];
+
+    let day = -1;
+    let hour = 0;
+    let currentDay: string;
+
+    for (const weather of this.forecast.list) {
+      const date = this.getDate(weather.dt_txt);
+
+      if (date === currentDay) {
+        this.days[day][hour++] = weather;
+      } else {
+        currentDay = date;
+        day++;
+        hour = 0;
+        this.days[day] = [];
+        this.days[day][hour++] = weather;
+      }
+    }
+  }
+
+  getDate(data: string): string {
+    return data.substring(0, 10);
+  }
+
+  getTime(data: string) {
+    return data.substring(11, 16);
+  }
+
+  parseInt(double: number) {
+    return Math.round(double);
+  }
+
+  decrementDay() {
+    if (this.showingDay > 0) {
+      this.showingDay--;
+    }
+  }
+
+  incrementDay() {
+    if (this.showingDay < this.days.length - 1) {
+      this.showingDay++;
+    }
+  }
+
+  goBack() {
+    // Go to search page again
+    this.router.navigate(['search']);
   }
 
   // This method returns a translated icon from
   // open weather map to custom weather icons
   // See result css for more info about icons
-  getIconCode() {
-    switch (this.forecast.list[0].weather[0].icon) {
+  getIconCode(weather: Weather) {
+    switch (weather.icon) {
       case '01d':
         return 'wi-day-sunny';
       case '01n':
@@ -128,7 +194,7 @@ export class ResultComponent implements OnInit {
 
   // TODO: This is not being used at the moment
   // might never use it. Remove if so
-  getIconColor() {
+  getIconColor(): string {
     const icon = this.forecast.list[0].weather[0].icon;
     let color: string;
     switch (icon.charAt(icon.length - 1)) {
