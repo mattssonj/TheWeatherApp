@@ -6,3 +6,5 @@ This is a work in progress. Se current production build at [here](https://mattss
 
 For the time being, the app collects data from OpenWeatherMap.
 Back end will be developed later on.
+
+See my current plans about the project [here](https://github.com/mattssonj/TheWeatherApp/projects/1)
