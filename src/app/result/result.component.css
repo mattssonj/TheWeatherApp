@@ -5,9 +5,15 @@
     for weather icons
 */
 
+@media(max-width:10em) {
+    #temp_logo {
+        display: none;
+    }
+}
+
 .result {
     background-color: rgba(255,255,255,0.7);
-    padding: 2em;
+    padding: 1em;
     border-radius: 5px;
     font-size: 16px;
 }
@@ -33,12 +39,21 @@
     height: 100%;
 }
 
+.back-button:hover {
+    background-color: blue;
+}
+
 .side_button {
     /* Center buttons in div */
+    padding-top: 5px;
     display: flex;
     justify-content: center; /* align horizontal */
     align-items: center; /* align vertical */
     border-radius: 5px;
+}
+
+#temp_logo {
+    overflow: hidden;
 }
 
 #red_thermometer {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WeatherService } from '../weather/weather.service';
 import { Forecast } from '../weather/forecast';
 import { PrinterService } from '../printer.service';
+import { Router } from '@angular/router';
 
 import { Main } from '../weather/main';
 import { Weather } from '../weather/weather';
@@ -21,7 +22,8 @@ export class ResultComponent implements OnInit {
 
   constructor(
     private weatherService: WeatherService,
-    private logger: PrinterService
+    private logger: PrinterService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -40,7 +42,7 @@ export class ResultComponent implements OnInit {
     }
     this.logger.log('Forecast was null, setting up test forecast');
     const m = {
-      'temp': 15.34,
+      'temp': 23.54,
       'pressure': null,
       'humidity': null,
       'temp_min': null,
@@ -135,6 +137,11 @@ export class ResultComponent implements OnInit {
     if (this.showingDay < this.days.length - 1) {
       this.showingDay++;
     }
+  }
+
+  goBack() {
+    // Go to search page again
+    this.router.navigate(['search']);
   }
 
   // This method returns a translated icon from
