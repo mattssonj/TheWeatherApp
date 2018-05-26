@@ -24,18 +24,19 @@
     margin-bottom: 5px;
 }
 
-.side_button {
+.side-button {
     /* Center buttons in div */
     display: flex;
+    width: 100%;
     justify-content: center; /* align horizontal */
     align-items: center; /* align vertical */
     border-radius: 5px;
 }
 
-#red_thermometer {
+#red-thermometer {
     color: red;
 }
 
-#blue_thermometer {
+#blue-thermometer {
     color: blue;
 }
