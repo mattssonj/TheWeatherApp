@@ -57,8 +57,9 @@
 
     <!-- Left side button -->
     <div class="col-6 side-button">
-      <div *ngIf="(showingDay > 0)">
-        <button type="button" class="btn btn-light btn-block" (click)="decrementDay()">
+      <div *ngIf="(showingDay > 0)" class="full-width">
+        <button type="button" class="btn btn-outline-primary btn-block border-0" (click)="decrementDay()">
+          <fa name="angle-left fa-2x"></fa>
           <fa name="angle-left fa-2x"></fa>
         </button>
       </div>
@@ -66,8 +67,9 @@
 
     <!-- Right side button -->
     <div class="col-6 side-button">
-      <div *ngIf="(showingDay < days.length - 1)">
-        <button type="button" class="btn btn-light btn-block" (click)="incrementDay()">
+      <div *ngIf="(showingDay < days.length - 1)" class="full-width">
+        <button type="button" class="btn btn-outline-primary btn-block border-0" (click)="incrementDay()">
+          <fa name="angle-right fa-2x"></fa>
           <fa name="angle-right fa-2x"></fa>
         </button>
       </div>
