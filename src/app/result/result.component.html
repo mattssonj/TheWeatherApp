@@ -1,26 +1,22 @@
 <div *ngIf="forecast" class="result">
-  <div class="row" class="border-0">
-    <button class="btn btn-primary btn-outline-dark" style="width: 100%; margin-bottom: 5px;" (click)="goBack()">
-      <!-- Create Back button here -->
-      <fa name="arrow-left"></fa>
-    </button>
-  </div>
-  <div class="row">
-    <div class="col-md-1 side_button">
-      <div *ngIf="(showingDay > 0)" class="full-height">
-        <button type="button" class="btn btn-light full-height" (click)="decrementDay()">
-          <fa name="angle-left fa-2x"></fa>
-        </button>
-      </div>
+  <div class="row my-row">
+    <div class="col">
+      <button class="btn btn-primary btn-outline-dark btn-block" (click)="goBack()">
+        <!-- Create Back button here -->
+        <fa name="arrow-left"></fa>
+      </button>
     </div>
+  </div>
+
+  <div class="row my-row">
 
     <!-- left column showing current weather -->
-    <div class="col-md-5">
+    <div class="col-md-6 col-sm-12">
       <span style="font-size: 0.75em;">data collected from:</span>
       <h3>{{ forecast.city.name }}</h3>
       <p>
-        <span *ngIf="forecast.list[showingDay].main.temp > 20" id="red_thermometer" class="wi wi-thermometer thermometer"></span>
-        <span *ngIf="forecast.list[showingDay].main.temp <= 5" id="blue_thermometer" class="wi wi-thermometer-exterior thermometer"></span>
+        <span *ngIf="forecast.list[showingDay].main.temp > 20" id="red-thermometer" class="wi wi-thermometer thermometer"></span>
+        <span *ngIf="forecast.list[showingDay].main.temp <= 5" id="blue-thermometer" class="wi wi-thermometer-exterior thermometer"></span>
         Tempature is: {{ parseInt(forecast.list[showingDay].main.temp) }}&#8451;
       </p>
       <p>{{ forecast.list[showingDay].weather[0].description }}
@@ -35,39 +31,53 @@
     </div>
 
     <!-- Right column showing hourly forecasts -->
-    <div class="col-md-5 forecast">
-      <div class="center">
-        <span *ngIf="showingDay > 0">Day: {{ getDate(days[showingDay][0].dt_txt) }}</span>
-        <span *ngIf="showingDay <= 0">Today</span>
-      </div>
+    <div class="col-md-6 col-sm-12 forecast">
+      <span *ngIf="showingDay > 0">Day: {{ getDate(days[showingDay][0].dt_txt) }}</span>
+      <span *ngIf="showingDay <= 0">Today</span>
       <div *ngFor="let weather of days[showingDay]">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-4">
             <span>{{ getTime(weather.dt_txt) }}</span>
           </div>
-          <div class="col-md-4">
-            <span *ngIf="weather.main.temp > 20" id="red_thermometer" class="wi wi-thermometer thermometer"></span>
-            <span *ngIf="weather.main.temp <= 5" id="blue_thermometer" class="wi wi-thermometer-exterior thermometer"></span>
+          <div class="col-4">
+            <span *ngIf="weather.main.temp > 20" id="red-thermometer" class="wi wi-thermometer thermometer"></span>
+            <span *ngIf="weather.main.temp <= 5" id="blue-thermometer" class="wi wi-thermometer-exterior thermometer"></span>
             <span>{{ parseInt(weather.main.temp) }}&#8451;</span>
           </div>
-          <div class="col-md-4">
+          <div class="col-4">
             <span>
               <i class="wi {{ getIconCode(weather.weather[0]) }}"></i>
             </span>
           </div>
-
         </div>
       </div>
     </div>
-    <div class="col-md-1 side_button">
-      <div *ngIf="(showingDay < days.length - 1)" class="full-height">
-        <button type="button" class="btn btn-light full-height" (click)="incrementDay()">
+  </div>
+  <div class="row my-row input-group-btn input-group-lg">
+
+    <!-- Left side button -->
+    <div class="col-6 side-button">
+      <div *ngIf="(showingDay > 0)" class="full-width">
+        <button type="button" class="btn btn-outline-primary btn-block border-0" (click)="decrementDay()">
+          <fa name="angle-left fa-2x"></fa>
+          <fa name="angle-left fa-2x"></fa>
+        </button>
+      </div>
+    </div>
+
+    <!-- Right side button -->
+    <div class="col-6 side-button">
+      <div *ngIf="(showingDay < days.length - 1)" class="full-width">
+        <button type="button" class="btn btn-outline-primary btn-block border-0" (click)="incrementDay()">
+          <fa name="angle-right fa-2x"></fa>
           <fa name="angle-right fa-2x"></fa>
         </button>
       </div>
     </div>
   </div>
+
 </div>
+
 <div *ngIf="!forecast" class="result">
   <p>
     forecast is null! Something was supposed to have happend if you got here...

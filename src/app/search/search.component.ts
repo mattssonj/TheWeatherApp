@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone, ViewEncapsulation } from '@angular/core';
 import { WeatherService } from '../weather/weather.service';
 import { Router } from '@angular/router';
 import { Forecast } from '../weather/forecast';
@@ -8,16 +8,19 @@ import { Location } from '../location/location';
 import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
 import { PrinterService } from '../printer.service';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SearchComponent implements OnInit {
 
   input: string;
   @ViewChild('search') searchElement: ElementRef;
+  @ViewChild('popper') popover: NgbPopover;
 
   constructor(
     private weatherService: WeatherService,
@@ -93,9 +96,27 @@ export class SearchComponent implements OnInit {
   // TODO: circular dependancy on locationService atm...
   getLocation() {
     if (this.isFieldEmpty()) {
+      this.openPopover();
       return;
     }
+    this.closePopover();
     this.locationService.getPosition(this.input, this.locationCallback, this);
+  }
+
+  openPopover(): void {
+
+    // Getting size of page. If to small, dont show popover.
+    const bb = document.querySelector('#cover')
+      .getBoundingClientRect(),
+      width = bb.right - bb.left;
+
+    if (width >= 1024 - 1) {
+      this.popover.open();
+    }
+  }
+
+  closePopover(): void {
+    this.popover.close();
   }
 
   locationCallback(location: Location, search: SearchComponent) {

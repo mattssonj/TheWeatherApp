@@ -5,21 +5,11 @@
     for weather icons
 */
 
-@media(max-width:10em) {
-    #temp_logo {
-        display: none;
-    }
-}
-
 .result {
     background-color: rgba(255,255,255,0.7);
-    padding: 1em;
+    padding: 0.5em;
     border-radius: 5px;
     font-size: 16px;
-}
-
-.huge_icon {
-    font-size: 10em;
 }
 
 .thermometer {
@@ -27,43 +17,30 @@
 }
 
 .forecast {
-    padding: 0;
     font-size: 1em;
 }
 
-.showing-day-button {
-    height: 100%;
+.my-row {
+    margin-bottom: 5px;
 }
 
-.full-height {
-    height: 100%;
+.full-width {
+    width: 100%;
 }
 
-.back-button:hover {
-    background-color: blue;
-}
-
-.side_button {
+.side-button {
     /* Center buttons in div */
-    padding-top: 5px;
     display: flex;
+    width: 100%;
     justify-content: center; /* align horizontal */
     align-items: center; /* align vertical */
     border-radius: 5px;
 }
 
-.center {
-    text-align: center;   
-}
-
-#temp_logo {
-    overflow: hidden;
-}
-
-#red_thermometer {
+#red-thermometer {
     color: red;
 }
 
-#blue_thermometer {
+#blue-thermometer {
     color: blue;
 }
