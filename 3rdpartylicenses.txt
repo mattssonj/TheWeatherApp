@@ -234,7 +234,7 @@ MIT License
 MIT
 MIT
 
-bootstrap@4.1.0
+bootstrap@4.1.1
 MIT
 The MIT License (MIT)
 
