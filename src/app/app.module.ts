@@ -31,7 +31,7 @@ import { PrinterService } from './printer.service';
   ],
   imports: [
     BrowserModule,
-    NgbModule,
+    NgbModule.forRoot(),
     AngularFontAwesomeModule,
     AppRoutingModule,
     FormsModule,
