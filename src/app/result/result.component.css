@@ -1,5 +1,6 @@
-@import './css/weather-icons.css';
-@import './css/weather-icons-wind.css';
+@import '../../assets/fonts/weather-icon/css/weather-icons.css';
+@import '../../assets/fonts/weather-icon/css/weather-icons-wind.css';
+
 /*
     using http://erikflowers.github.io/weather-icons/
     for weather icons
