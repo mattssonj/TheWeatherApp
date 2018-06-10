@@ -48,7 +48,7 @@ src/environments/environment.prod.ts
 src/environments/environment.ts
 
 # to make the project a bit smaller
-src/result/css/
+src/result/css/*
 
 # https certs
 *.pem
